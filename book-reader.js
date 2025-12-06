@@ -16,40 +16,77 @@ class BookReader {
     this.spreads = [];
     const pages = [...this.allPages];
     
-    // First spread: [empty, page1] - first page alone on right
-    if (pages.length > 0) {
-      const firstPage = pages.shift();
-      if (firstPage.isDouble) {
-        // If first page is double, show it alone
-        this.spreads.push({ left: null, right: null, double: firstPage });
+    if (pages.length === 0) return;
+    
+    // Strategy: Work through sections between double pages
+    // Each section should have proper pairing based on count
+    
+    // Split pages into sections (separated by double pages)
+    const sections = [];
+    let currentSection = [];
+    
+    for (let i = 0; i < pages.length; i++) {
+      if (pages[i].isDouble) {
+        if (currentSection.length > 0) {
+          sections.push({ type: 'singles', pages: currentSection });
+          currentSection = [];
+        }
+        sections.push({ type: 'double', pages: [pages[i]] });
       } else {
-        // First single page on right side
-        this.spreads.push({ left: null, right: firstPage, double: null });
+        currentSection.push(pages[i]);
       }
     }
+    if (currentSection.length > 0) {
+      sections.push({ type: 'singles', pages: currentSection });
+    }
     
-    // Process remaining pages
-    let i = 0;
-    while (i < pages.length) {
-      const currentPage = pages[i];
+    // Process first section specially (first page always alone on left)
+    if (sections.length > 0 && sections[0].type === 'singles') {
+      const firstSection = sections.shift();
+      const firstPage = firstSection.pages.shift();
       
-      if (currentPage.isDouble) {
-        // Double page gets its own spread
-        this.spreads.push({ left: null, right: null, double: currentPage });
-        i++;
-      } else if (i + 1 < pages.length && !pages[i + 1].isDouble) {
-        // Two single pages: [page(i+1), page(i)]
-        // Right-to-left order: next page on left, current page on right
-        this.spreads.push({ 
-          left: pages[i + 1], 
-          right: currentPage, 
-          double: null 
-        });
-        i += 2;
+      // First page alone on left
+      this.spreads.push({ left: firstPage, right: null, double: null, soloPage: true });
+      
+      // If there are remaining pages in first section, add them back
+      if (firstSection.pages.length > 0) {
+        sections.unshift({ type: 'singles', pages: firstSection.pages });
+      }
+    } else if (sections.length > 0 && sections[0].type === 'double') {
+      // First page is a double
+      const firstDouble = sections.shift();
+      this.spreads.push({ left: null, right: null, double: firstDouble.pages[0] });
+    }
+    
+    // Process remaining sections
+    for (const section of sections) {
+      if (section.type === 'double') {
+        // Add double page spread
+        this.spreads.push({ left: null, right: null, double: section.pages[0] });
       } else {
-        // Last single page alone on right
-        this.spreads.push({ left: null, right: currentPage, double: null });
-        i++;
+        // Process singles section
+        const singles = section.pages;
+        
+        // Count singles to determine if we need to start with an orphan
+        const count = singles.length;
+        
+        // If odd count, first page goes alone on right
+        let startIdx = 0;
+        if (count % 2 === 1) {
+          this.spreads.push({ left: null, right: singles[0], double: null });
+          startIdx = 1;
+        }
+        
+        // Pair the remaining singles: [i+1, i]
+        for (let i = startIdx; i < singles.length; i += 2) {
+          if (i + 1 < singles.length) {
+            this.spreads.push({ 
+              left: singles[i + 1], 
+              right: singles[i], 
+              double: null 
+            });
+          }
+        }
       }
     }
     
@@ -148,6 +185,7 @@ class BookReader {
     leftContainer.innerHTML = '';
     rightContainer.innerHTML = '';
     spreadContainer.classList.remove('comic-san-double-page');
+    spreadContainer.classList.remove('comic-san-solo-page');
     
     if (spread.double) {
       // Double page spread
@@ -156,6 +194,11 @@ class BookReader {
       leftContainer.appendChild(img);
     } else {
       // Single pages or empty slots
+      if (spread.soloPage) {
+        // Solo page (like first page) - center it
+        spreadContainer.classList.add('comic-san-solo-page');
+      }
+      
       if (spread.left) {
         const img = this.createImageElement(spread.left);
         leftContainer.appendChild(img);

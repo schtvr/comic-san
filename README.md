@@ -22,11 +22,36 @@ A Chrome extension that displays manga pages in a proper book format with right-
 4. Click "Load unpacked"
 5. Select the `comic-san` folder
 
-### Icon Setup (Optional)
+# Installation Instructions
 
-The extension includes an SVG icon. For best results, convert it to PNG:
-- See `icons/README.md` for instructions
-- Extension works with default Chrome icon if PNG files are missing
+## Quick Start
+
+1. **Open Chrome Extensions**
+   - Navigate to `chrome://extensions/` in your Chrome browser
+   - Or click the puzzle icon (⋮) → More tools → Extensions
+
+2. **Enable Developer Mode**
+   - Toggle "Developer mode" in the top-right corner
+
+3. **Load the Extension**
+   - Click "Load unpacked"
+   - Navigate to and select the `comic-san` folder
+   - Click "Select" (or "Open")
+
+4. **Verify Installation**
+   - You should see "Comic San - Manga Book Reader" in your extensions list
+   - The extension icon will appear in your toolbar
+
+5. **Visit a Manga Chapter**
+   - Go to https://onepiecechapters.com/chapters/
+   - Open any chapter
+   - Book mode should activate automatically!
+
+## Controls
+
+- **Left Arrow** or **Space** → Next spread (turn page forward)
+- **Right Arrow** → Previous spread (turn page backward)
+- **Escape** → Exit book view
 
 ## Usage
 
@@ -46,17 +71,6 @@ Click the extension icon in Chrome toolbar to:
 
 ## How It Works
 
-### Page Layout
-
-The extension transforms vertical manga pages into book spreads:
-
-**Example flow:**
-1. Spread 1: `[_, Cover]` - Cover alone on right
-2. Spread 2: `[Page 3, Page 2]` - Pages paired right-to-left
-3. Spread 3: `[Page 5, Page 4]`
-4. Continue...
-5. Final spread: `[TCB Credits]` - Credits moved to end
-
 ### Special Handling
 
 - **Cover page** - Displayed alone on the right side
@@ -75,73 +89,14 @@ The extension analyzes each image's aspect ratio:
 Currently configured for:
 - onepiecechapters.com/chapters/*
 - tcbscans.com/chapters/*
-
-### Add More Sites
-
-Edit `manifest.json` content_scripts matches:
-```json
-"matches": [
-  "*://yoursite.com/chapters/*"
-]
-```
-
-## Development
-
-### File Structure
-
-```
-comic-san/
-├── manifest.json          # Extension configuration
-├── content.js            # Main initialization script
-├── book-reader.js        # Core book view engine
-├── image-analyzer.js     # Page detection logic
-├── styles.css            # Book view styles
-├── popup.html            # Extension popup UI
-├── popup.js              # Popup functionality
-├── icons/                # Extension icons
-│   ├── icon.svg         # Source SVG
-│   └── README.md        # Icon instructions
-└── README.md            # This file
-```
-
-### Key Components
-
-**ImageAnalyzer** (`image-analyzer.js`)
-- Analyzes image dimensions
-- Detects single vs double pages
-- Identifies TCB credits page
-
-**BookReader** (`book-reader.js`)
-- Generates spreads from pages
-- Renders book layout
-- Handles navigation and controls
-- Manages preloading
-
-**Content Script** (`content.js`)
-- Finds manga images on page
-- Initializes book reader
-- Listens for toggle messages
+- tcbonepiecechapters.com/chapters/*
 
 ## Customization
-
-### Aspect Ratio Threshold
-
-Adjust double-page detection in `content.js`:
-```javascript
-const analyzer = new ImageAnalyzer(1.3); // Change threshold
-```
 
 ### Keyboard Shortcuts
 
 Modify in `book-reader.js` `setupKeyboardNavigation()` method.
 
-### Styling
-
-Edit `styles.css` to customize:
-- Background color
-- Page spacing
-- Control buttons
-- Transitions
 
 ## Troubleshooting
 
@@ -174,7 +129,7 @@ MIT License - Feel free to modify and distribute
 
 ## Credits
 
-Created for manga readers who prefer the traditional book reading experience.
+Created for manga readers who prefer a digital book reading experience.
 
 ---
 
