@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Comic San - Manga Book Reader",
+  "version": "1.0.0",
+  "description": "Read manga in book format with right-to-left page layout",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://onepiecechapters.com/chapters/*",
+        "*://*.onepiecechapters.com/chapters/*",
+        "*://tcbscans.com/chapters/*",
+        "*://*.tcbscans.com/chapters/*"
+      ],
+      "js": ["image-analyzer.js", "book-reader.js", "content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

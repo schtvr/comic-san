@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Comic San Settings</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      margin: 0;
+    }
+    
+    h1 {
+      font-size: 20px;
+      margin: 0 0 20px 0;
+      text-align: center;
+      color: #fff;
+    }
+    
+    .logo {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #4a4a4a;
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    
+    .info {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+      padding: 10px;
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
+    .info strong {
+      color: #fff;
+    }
+    
+    .status {
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+      display: none;
+    }
+    
+    .status.active {
+      display: block;
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .status.inactive {
+      display: block;
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">📖</div>
+  <h1>Comic San</h1>
+  
+  <div class="toggle-container">
+    <span class="toggle-label">Book Mode</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="bookModeToggle" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+  
+  <div id="status" class="status"></div>
+  
+  <div class="info">
+    <strong>Controls:</strong><br>
+    • <strong>Left Arrow</strong> - Next spread<br>
+    • <strong>Right Arrow</strong> - Previous spread<br>
+    • <strong>Space</strong> - Next spread<br>
+    • <strong>Escape</strong> - Exit book view<br>
+    <br>
+    <strong>Note:</strong> Manga reads right-to-left. Pages are displayed in book format with proper right-to-left reading order.
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

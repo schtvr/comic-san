@@ -1,0 +1,199 @@
+/* styles.css - Book reader styling */
+
+#comic-san-reader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1a1a1a;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.comic-san-spread-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  max-width: 95vw;
+  max-height: 90vh;
+  flex: 1;
+  padding: 20px;
+}
+
+.comic-san-spread-container.comic-san-double-page {
+  gap: 0;
+}
+
+.comic-san-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-height: 85vh;
+  min-width: 0;
+}
+
+.comic-san-page-left {
+  order: 1;
+}
+
+.comic-san-page-right {
+  order: 2;
+}
+
+.comic-san-double-page .comic-san-page-left {
+  flex: 1;
+  max-width: 95vw;
+}
+
+.comic-san-double-page .comic-san-page-right {
+  display: none;
+}
+
+.comic-san-page img {
+  max-width: 100%;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.comic-san-double-page .comic-san-page img {
+  max-width: 95vw;
+  max-height: 85vh;
+}
+
+.comic-san-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.comic-san-btn {
+  background-color: #4a4a4a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  min-width: 50px;
+}
+
+.comic-san-btn:hover:not(:disabled) {
+  background-color: #5a5a5a;
+  transform: scale(1.05);
+}
+
+.comic-san-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.comic-san-btn:disabled {
+  background-color: #2a2a2a;
+  color: #555;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.comic-san-counter {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 80px;
+  text-align: center;
+}
+
+.comic-san-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+}
+
+.comic-san-close:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.comic-san-close:active {
+  transform: scale(0.9);
+}
+
+/* Hide body overflow when book mode is active */
+body.comic-san-active {
+  overflow: hidden;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .comic-san-spread-container {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .comic-san-page {
+    max-height: 80vh;
+  }
+  
+  .comic-san-page img {
+    max-height: 80vh;
+  }
+  
+  .comic-san-controls {
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .comic-san-btn {
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+  
+  .comic-san-counter {
+    font-size: 14px;
+  }
+}
+
+/* Loading indicator */
+.comic-san-page img {
+  background-color: #2a2a2a;
+  min-height: 50vh;
+}
+
+/* Smooth transitions */
+.comic-san-spread-container {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Empty page styling */
+.comic-san-page:empty {
+  background-color: #1a1a1a;
+}
